@@ -1,0 +1,58 @@
+﻿@page
+@model ExcelWorkbookConsolidationModel
+
+<div class="row">
+    <div class="col-sm-12 col-md-4 mb-3">
+        <div class="card">
+            <h2 class="card-header">Choose a region</h2>
+            <div class="card-body">
+                <!-- Input Form -->
+                <form asp-page="ExcelWorkbookConsolidation" asp-page-handler="RenderInTable" method="post" id="sales-form">
+                    <label>Sales by Region</label>
+
+                    <div class="form-check">
+                        <input type="radio" asp-for="Region" class="form-check-input" value="North" id="region-north">
+                        <label for="region-north" class="form-check-label">North</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" asp-for="Region" class="form-check-input" value="South" id="region-south">
+                        <label for="region-south" class="form-check-label">South</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" asp-for="Region" class="form-check-input" value="East" id="region-east">
+                        <label for="region-east" class="form-check-label">East</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" asp-for="Region" class="form-check-input" value="West" id="region-west">
+                        <label for="region-west" class="form-check-label">West</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" asp-for="Region" class="form-check-input" value="All" id="region-all">
+                        <label for="region-all" class="form-check-all">All</label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button formaction="@Url.Page("ExcelWorkbookConsolidation", "DownloadWorkbook")" disabled="@(Model.Region == null)" class="btn btn-primary" title="@(Model.Region == null ? "Select Region to download workbook" : "Download region data to workbook")"><i class="fas fa-arrow-alt-to-bottom"></i> Download Workbook</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-8 mb-3">
+        <range-to-table range="@PageModel.DataRange" first-row-is-header="true"></range-to-table>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+
+          let $form = $("#sales-form");
+          $form.find("input[type=radio]").change(function () {
+            $form.submit();
+          });
+        });
+    </script>
+}
